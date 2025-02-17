@@ -19,6 +19,12 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['operacion'] == 'Enviar' ){
     $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
     if( $email ){
+        $actividades = [
+            "gns3" => "El simulador de red GNS3",
+            "ftp" => "Configuracion cortafuegos para FTP",
+            "dock" => "Despliegue rapido con Docker"
+        ];
+
         $_SESSION['email'] = $email;
         $orm_reg = new ORMRegistro();
 
@@ -30,15 +36,17 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['operacion'] == 'Enviar' ){
             </thead>
             <tbody>
                 <?php
-                foreach($registros as $registro){
-                    echo "<tr>";
-                    echo "<td>" . $registro->actividad . "</td>";
-                    echo "</tr>";
+                foreach($registros as $registro) {
+                    if( isset($actividades[$registro->actividad]) ){
+                        echo "<tr>";
+                            echo "<td>" . $actividades[$registro->actividad] . "</td>";
+                        echo "</tr>";
+                    }
+                }
                 ?>
             </tbody>
         </table>
     <?php
-    }
     }
 }
 

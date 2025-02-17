@@ -35,7 +35,10 @@ class ORMRegistro {
             ':actividad' => $registro->actividad
         ];
 
+
+        $this->pdo->beginTransaction();
         if( $stmt->execute($params) && $stmt->rowCount() == 1 ){
+            $this->pdo->commit();
             return true;
         }
 
@@ -50,7 +53,7 @@ class ORMRegistro {
 
         $params = [':email' => $email];
 
-        if ($stmt->execute($params) && $stmt->rowCount() >= 1) {
+        if ($stmt->execute($params) ) {
             $array_registros = [];
             while( $fila = $stmt->fetch() ){
                 $registro = new RegistroAsistente($fila);
